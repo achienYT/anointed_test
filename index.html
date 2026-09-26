@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>屬靈測驗：你是否承接了「危險的受膏」？</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #f59e0b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .q-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .q-text {
+            font-size: 1rem;
+            flex: 1;
+            padding-right: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .options label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+        }
+
+        button.submit-btn {
+            width: 100%;
+            background: var(--accent-color);
+            color: #000;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: opacity 0.2s;
+        }
+
+        button.submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        #result-section {
+            display: none;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px dashed var(--border-color);
+        }
+
+        .percentage-box {
+            text-align: center;
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .percentage-box h2 {
+            margin: 0;
+            color: var(--accent-color);
+            font-size: 2.5rem;
+        }
+
+        .explanation {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 0.98rem;
+            line-height: 1.8;
+            color: #e2e8f0;
+        }
+
+        .explanation h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>屬靈檢測：你是否承接了「危險的受膏」？</h1>
+    <p class="subtitle">請根據你的真實經歷回答以下 30 個問題，檢測上帝是否指派了極其重大且危險的任務給你。</p>
+
+    <form id="quizForm">
+        <div id="questions-container"></div>
+        <button type="button" class="submit-btn" onclick="calculateResult()">查看檢測結果</button>
+    </form>
+
+    <div id="result-section">
+        <div class="percentage-box">
+            <div>你承接「危險受膏」的機率為：</div>
+            <h2 id="score-text">0%</h2>
+        </div>
+
+        <div class="explanation">
+            <h3>徵兆解析與靈性說明</h3>
+            <p>
+                在屬靈歷程中，「受膏」代表上帝對某人的特別揀選與授權。然而，當上帝指派極為關鍵且突破性的使命時，這種受膏往往伴隨著極大的代價與孤立，即所謂「危險的受膏」。當你經歷頻繁的屬靈攻擊、莫名被周遭人排擠、孤立，甚至遭受最親近者的背叛時，這往往不是單純的運氣不好，而是仇敵試圖在你成就使命前摧毀你，同時也是上帝在熬煉你生命量能的過程。
+            </p>
+            <p>
+                承接危險受膏的人，常會感到自身正處於極度的屬靈爭戰之中，你的直覺與禱告感知會變得異常敏銳，甚至能預先感知屬靈氛圍的變革。你無法再隨波逐流於世俗的安逸，身邊舊有的社交圈可能紛紛離你而去，迫使你進入荒野般的孤寂。這份受膏之所以「危險」，是因為它要求你徹底放下自我、承擔超乎常人的屬靈壓力，並在極大的挑戰中堅守呼召。請記住，孤獨與爭戰正是神榮耀臨到前的荒野訓練，當你經歷這些徵兆，代表你被賦予了改變時代的屬靈重任。
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+const questions = [
+    "你是否經常經歷突如其來且難以解釋的密集困難或屬靈攻擊？",
+    "你是否發現身邊的人無緣無故對你產生敵意或排斥感？",
+    "你是否常感到自己與世俗的價值觀格格不入，無法融入一般人的圈子？",
+    "你是否曾為了堅守信仰或特定呼召，經歷過極度的孤立與寂寞？",
+    "你是否覺得自己被身邊最信任或親近的人背叛或誤解過？",
+    "你是否經常在禱告或平時感知到強烈的屬靈爭戰或壓迫感？",
+    "你是否覺得自己身上有一種連自己都無法抗拒的強大使命感？",
+    "你是否在經歷重大打擊後，靈性或直覺反而變得更加敏銳？",
+    "你是否常感到神在要求你放棄世俗的安逸與成就？",
+    "你是否曾感覺到仇敵正不擇手段地阻止你完成某些特定的事情？",
+    "你是否發現自己很容易吸引到靈裡同樣沉重或受傷的人尋求幫助？",
+    "你是否經歷過舊有的社交圈或人際關係突然集體斷裂？",
+    "你是否常被神帶領進入靈性上的「荒野時期」，感覺求告無門？",
+    "你是否對罪惡、偽善或屬靈上的妥協感到極度的不適與厭惡？",
+    "你是否曾在夢中或禱告中接收過極為明確且令人敬畏的啟示？",
+    "你是否覺得自己生命的磨難遠多於同齡人？",
+    "你是否發現當你試圖過平凡生活時，內心會產生強烈的痛苦與不安？",
+    "你是否常被要求承擔遠超出你能力範圍的靈性重擔？",
+    "你是否在面對極大逼迫時，內心反而湧現出一種不尋常的平靜與堅定？",
+    "你是否察覺到自己的話語或禱告對周遭屬靈環境具有強大的影響力？",
+    "你是否曾經歷過生命中所有依靠被徹底剝離，只能單單仰望神？",
+    "你是否常感到仇敵在你進入下一個生命突破前，發動最猛烈的攻擊？",
+    "你是否對神的榮耀與聖潔有著超乎常人的渴慕與敬畏？",
+    "你是否發現自己很難獲得世俗標準的認同，卻常蒙神特別的保守？",
+    "你是否經常需要為一個群體、城市或時代進行代禱與破口補立？",
+    "你是否感官與靈裡對周遭的環境氛圍有著極高的敏銳度？",
+    "你是否曾經歷過物質或肉體上的極度匱乏，以學習完全依靠神？",
+    "你是否覺得自己被神揀選去做某些極具開創性或風險的事工？",
+    "你是否常需要在孤獨中獨自面對屬靈的黑暗與爭戰？",
+    "你是否深刻體會到「受膏越深，所付出的代價與責任越沉重」？"
+];
+
+const container = document.getElementById('questions-container');
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement('div');
+    qDiv.className = 'q-card';
+    qDiv.innerHTML = `
+        <div class="q-text">${index + 1}. ${q}</div>
+        <div class="options">
+            <label><input type="radio" name="q${index}" value="1" required> 是</label>
+            <label><input type="radio" name="q${index}" value="0"> 否</label>
+        </div>
+    `;
+    container.appendChild(qDiv);
+});
+
+function calculateResult() {
+    const form = document.getElementById('quizForm');
+    const formData = new FormData(form);
+    let totalYes = 0;
+    let answeredCount = 0;
+
+    for (let i = 0; i < questions.length; i++) {
+        const val = formData.get(`q${i}`);
+        if (val !== null) {
+            answeredCount++;
+            totalYes += parseInt(val);
+        }
+    }
+
+    if (answeredCount < questions.length) {
+        alert(`請完成所有問題再提交！（目前已回答 ${answeredCount}/${questions.length} 題）`);
+        return;
+    }
+
+    const percentage = Math.round((totalYes / questions.length) * 100);
+    document.getElementById('score-text').innerText = `${percentage}%`;
+    document.getElementById('result-section').style.display = 'block';
+
+    document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
