@@ -1,240 +1,478 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" class="h-full">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>屬靈測驗：你是否承接了「危險的受膏」？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>屬靈檢測：你是否承接了「危險的受膏」？</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Noto+Serif+TC:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent-color: #f59e0b;
-            --text-color: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
+            font-family: 'Plus Jakarta Sans', 'Noto Serif TC', serif, -apple-system, sans-serif;
+            background-color: #070a12;
+            color: #f8fafc;
+            overflow-x: hidden;
+            touch-action: manipulation;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
         }
 
-        h1 {
-            text-align: center;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-            font-size: 1.8rem;
+        .font-serif-tc {
+            font-family: 'Noto Serif TC', serif;
         }
 
-        .subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            font-size: 0.95rem;
+        /* Mystic Background Elements */
+        .bg-radial-glow {
+            background: radial-gradient(circle at 50% 30%, rgba(217, 119, 6, 0.15) 0%, rgba(15, 23, 42, 0) 70%);
         }
 
-        .q-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            padding: 16px 20px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .bg-card-gradient {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
 
-        .q-text {
-            font-size: 1rem;
-            flex: 1;
-            padding-right: 15px;
+        .gold-border-glow {
+            box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.25);
         }
 
-        .options {
-            display: flex;
-            gap: 15px;
+        .gold-text-glow {
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
         }
 
-        .options label {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: bold;
+        /* Custom Scrollbar for Result Page */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(217, 119, 6, 0.4);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(245, 158, 11, 0.7);
         }
 
-        button.submit-btn {
-            width: 100%;
-            background: var(--accent-color);
-            color: #000;
-            font-weight: bold;
-            font-size: 1.2rem;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 25px;
-            transition: opacity 0.2s;
+        /* Keyframe Animations */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
         }
 
-        button.submit-btn:hover {
-            opacity: 0.9;
+        .animate-pulse-slow {
+            animation: pulseGlow 6s infinite ease-in-out;
         }
 
-        #result-section {
-            display: none;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px dashed var(--border-color);
+        .slide-in {
+            animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .percentage-box {
-            text-align: center;
-            background: rgba(245, 158, 11, 0.1);
-            border: 2px solid var(--accent-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
+        .slide-out {
+            animation: slideOutLeft 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .percentage-box h2 {
-            margin: 0;
-            color: var(--accent-color);
-            font-size: 2.5rem;
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        .explanation {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 0.98rem;
-            line-height: 1.8;
-            color: #e2e8f0;
-        }
-
-        .explanation h3 {
-            color: var(--accent-color);
-            margin-top: 0;
+        @keyframes slideOutLeft {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(-40px); }
         }
     </style>
 </head>
-<body>
+<body class="h-full flex flex-col justify-between select-none bg-[#070a12] text-slate-100 antialiased">
 
-<div class="container">
-    <h1>屬靈檢測：你是否承接了「危險的受膏」？</h1>
-    <p class="subtitle">請根據你的真實經歷回答以下 30 個問題，檢測上帝是否指派了極其重大且危險的任務給你。</p>
-
-    <form id="quizForm">
-        <div id="questions-container"></div>
-        <button type="button" class="submit-btn" onclick="calculateResult()">查看檢測結果</button>
-    </form>
-
-    <div id="result-section">
-        <div class="percentage-box">
-            <div>你承接「危險受膏」的機率為：</div>
-            <h2 id="score-text">0%</h2>
-        </div>
-
-        <div class="explanation">
-            <h3>徵兆解析與靈性說明</h3>
-            <p>
-                在屬靈歷程中，「受膏」代表上帝對某人的特別揀選與授權。然而，當上帝指派極為關鍵且突破性的使命時，這種受膏往往伴隨著極大的代價與孤立，即所謂「危險的受膏」。當你經歷頻繁的屬靈攻擊、莫名被周遭人排擠、孤立，甚至遭受最親近者的背叛時，這往往不是單純的運氣不好，而是仇敵試圖在你成就使命前摧毀你，同時也是上帝在熬煉你生命量能的過程。
-            </p>
-            <p>
-                承接危險受膏的人，常會感到自身正處於極度的屬靈爭戰之中，你的直覺與禱告感知會變得異常敏銳，甚至能預先感知屬靈氛圍的變革。你無法再隨波逐流於世俗的安逸，身邊舊有的社交圈可能紛紛離你而去，迫使你進入荒野般的孤寂。這份受膏之所以「危險」，是因為它要求你徹底放下自我、承擔超乎常人的屬靈壓力，並在極大的挑戰中堅守呼召。請記住，孤獨與爭戰正是神榮耀臨到前的荒野訓練，當你經歷這些徵兆，代表你被賦予了改變時代的屬靈重任。
-            </p>
-        </div>
+    <!-- Ambient Glowing Background Stars/Lights -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-amber-600/10 rounded-full blur-[120px] animate-pulse-slow"></div>
+        <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-900/10 rounded-full blur-[100px]"></div>
+        <div class="absolute top-1/2 left-0 w-[300px] h-[300px] bg-amber-500/5 rounded-full blur-[80px]"></div>
     </div>
-</div>
 
-<script>
-const questions = [
-    "你是否經常經歷突如其來且難以解釋的密集困難或屬靈攻擊？",
-    "你是否發現身邊的人無緣無故對你產生敵意或排斥感？",
-    "你是否常感到自己與世俗的價值觀格格不入，無法融入一般人的圈子？",
-    "你是否曾為了堅守信仰或特定呼召，經歷過極度的孤立與寂寞？",
-    "你是否覺得自己被身邊最信任或親近的人背叛或誤解過？",
-    "你是否經常在禱告或平時感知到強烈的屬靈爭戰或壓迫感？",
-    "你是否覺得自己身上有一種連自己都無法抗拒的強大使命感？",
-    "你是否在經歷重大打擊後，靈性或直覺反而變得更加敏銳？",
-    "你是否常感到神在要求你放棄世俗的安逸與成就？",
-    "你是否曾感覺到仇敵正不擇手段地阻止你完成某些特定的事情？",
-    "你是否發現自己很容易吸引到靈裡同樣沉重或受傷的人尋求幫助？",
-    "你是否經歷過舊有的社交圈或人際關係突然集體斷裂？",
-    "你是否常被神帶領進入靈性上的「荒野時期」，感覺求告無門？",
-    "你是否對罪惡、偽善或屬靈上的妥協感到極度的不適與厭惡？",
-    "你是否曾在夢中或禱告中接收過極為明確且令人敬畏的啟示？",
-    "你是否覺得自己生命的磨難遠多於同齡人？",
-    "你是否發現當你試圖過平凡生活時，內心會產生強烈的痛苦與不安？",
-    "你是否常被要求承擔遠超出你能力範圍的靈性重擔？",
-    "你是否在面對極大逼迫時，內心反而湧現出一種不尋常的平靜與堅定？",
-    "你是否察覺到自己的話語或禱告對周遭屬靈環境具有強大的影響力？",
-    "你是否曾經歷過生命中所有依靠被徹底剝離，只能單單仰望神？",
-    "你是否常感到仇敵在你進入下一個生命突破前，發動最猛烈的攻擊？",
-    "你是否對神的榮耀與聖潔有著超乎常人的渴慕與敬畏？",
-    "你是否發現自己很難獲得世俗標準的認同，卻常蒙神特別的保守？",
-    "你是否經常需要為一個群體、城市或時代進行代禱與破口補立？",
-    "你是否感官與靈裡對周遭的環境氛圍有著極高的敏銳度？",
-    "你是否曾經歷過物質或肉體上的極度匱乏，以學習完全依靠神？",
-    "你是否覺得自己被神揀選去做某些極具開創性或風險的事工？",
-    "你是否常需要在孤獨中獨自面對屬靈的黑暗與爭戰？",
-    "你是否深刻體會到「受膏越深，所付出的代價與責任越沉重」？"
-];
+    <!-- MAIN APP CONTAINER -->
+    <main class="relative z-10 w-full min-h-[100dvh] flex flex-col justify-center items-center p-4 md:p-6 max-w-3xl mx-auto">
 
-const container = document.getElementById('questions-container');
+        <!-- SCREEN 1: LANDING PAGE -->
+        <section id="screen-landing" class="w-full flex flex-col items-center text-center space-y-6 py-8 my-auto slide-in">
+            <!-- Icon / Symbol -->
+            <div class="relative mb-2">
+                <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-b from-amber-500/20 to-amber-900/40 border border-amber-500/40 flex items-center justify-center gold-border-glow">
+                    <i class="fa-solid fa-fire-flame-curved text-4xl md:text-5xl text-amber-400 gold-text-glow"></i>
+                </div>
+                <div class="absolute -inset-1 rounded-full border border-amber-400/20 animate-ping opacity-25"></div>
+            </div>
 
-questions.forEach((q, index) => {
-    const qDiv = document.createElement('div');
-    qDiv.className = 'q-card';
-    qDiv.innerHTML = `
-        <div class="q-text">${index + 1}. ${q}</div>
-        <div class="options">
-            <label><input type="radio" name="q${index}" value="1" required> 是</label>
-            <label><input type="radio" name="q${index}" value="0"> 否</label>
-        </div>
-    `;
-    container.appendChild(qDiv);
-});
+            <!-- Title Header -->
+            <div class="space-y-3">
+                <span class="inline-block px-3 py-1 text-xs font-semibold tracking-widest text-amber-400 uppercase bg-amber-500/10 border border-amber-500/30 rounded-full">
+                    Spiritual Calling & Discernment
+                </span>
+                <h1 class="text-3xl md:text-5xl font-black font-serif-tc tracking-tight text-white leading-tight">
+                    你是否承接了<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500 gold-text-glow">「危險的受膏」？</span>
+                </h1>
+                <p class="text-sm md:text-base text-slate-400 max-w-lg mx-auto font-light leading-relaxed pt-2">
+                    被上帝指派極為重大、突破性的使命時，往往伴隨超乎常人的孤立、屬靈爭戰與熬煉。你正經歷這些特殊徵兆嗎？
+                </p>
+            </div>
 
-function calculateResult() {
-    const form = document.getElementById('quizForm');
-    const formData = new FormData(form);
-    let totalYes = 0;
-    let answeredCount = 0;
+            <!-- Input Box & Action Button -->
+            <div class="w-full max-w-md pt-4 space-y-4">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                        <i class="fa-solid fa-user-shield text-amber-400/80"></i>
+                    </div>
+                    <input type="text" id="user-nickname" placeholder="請輸入你的暱稱或名字..." 
+                        class="w-full pl-11 pr-4 py-4 rounded-xl bg-slate-900/80 border border-slate-700/80 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30 text-white placeholder-slate-500 text-base outline-none transition-all duration-200 shadow-inner"
+                        maxlength="12" autocomplete="off" />
+                </div>
 
-    for (let i = 0; i < questions.length; i++) {
-        const val = formData.get(`q${i}`);
-        if (val !== null) {
-            answeredCount++;
-            totalYes += parseInt(val);
+                <button onclick="startQuiz()" class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 text-slate-950 font-bold text-lg tracking-wide hover:brightness-110 active:scale-[0.99] transition-all shadow-lg shadow-amber-600/20 flex items-center justify-center space-x-2">
+                    <span>開始屬靈檢測</span>
+                    <i class="fa-solid fa-arrow-right text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Quiz Info Footer -->
+            <div class="text-xs text-slate-500 flex items-center justify-center space-x-4 pt-4 border-t border-slate-800/80 w-full max-w-xs">
+                <span><i class="fa-regular fa-clock mr-1"></i>約需 3 分鐘</span>
+                <span>•</span>
+                <span><i class="fa-solid fa-list-check mr-1"></i>共 30 題</span>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: QUIZ PAGE (Single Question Screen) -->
+        <section id="screen-quiz" class="hidden w-full h-full flex flex-col justify-between my-auto py-4 space-y-6">
+            
+            <!-- Top Bar: Progress & User Info -->
+            <div class="w-full space-y-3">
+                <div class="flex justify-between items-center text-xs md:text-sm text-slate-400">
+                    <span id="quiz-user-display" class="font-medium text-amber-400 flex items-center gap-2">
+                        <i class="fa-solid fa-user-circle"></i>
+                        <span id="display-name">測驗者</span>
+                    </span>
+                    <span class="font-mono tracking-wider text-slate-300">
+                        <span id="current-question-num" class="text-amber-400 font-bold text-base">1</span> / 30
+                    </span>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/50">
+                    <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-amber-500 to-amber-300 rounded-full transition-all duration-300" style="width: 3.33%;"></div>
+                </div>
+            </div>
+
+            <!-- Middle: Question Card -->
+            <div id="question-card" class="w-full my-auto py-8 px-6 md:px-10 rounded-2xl bg-card-gradient border border-amber-500/20 gold-border-glow flex flex-col justify-center items-center text-center space-y-6 min-h-[260px] md:min-h-[300px] relative overflow-hidden">
+                <div class="absolute -top-12 -right-12 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none"></div>
+                <span class="px-3 py-1 bg-amber-500/10 text-amber-400 rounded-full text-xs font-semibold uppercase tracking-widest border border-amber-500/20">
+                    徵兆檢測 <span id="q-badge-num">01</span>
+                </span>
+                <h2 id="question-text" class="text-xl md:text-2xl font-bold font-serif-tc text-slate-100 leading-relaxed md:leading-loose">
+                    載入題目中...
+                </h2>
+            </div>
+
+            <!-- Bottom: Action Buttons (Yes / No / Prev) -->
+            <div class="w-full space-y-4">
+                <!-- Main Choice Buttons -->
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="answerQuestion(true)" class="group py-5 md:py-6 px-4 rounded-2xl bg-slate-900 border-2 border-emerald-500/40 hover:border-emerald-500 active:bg-emerald-950/40 text-emerald-400 font-bold text-xl md:text-2xl transition-all duration-200 flex flex-col items-center justify-center space-y-1 shadow-lg shadow-emerald-950/20">
+                        <i class="fa-solid fa-circle-check text-2xl group-hover:scale-110 transition-transform"></i>
+                        <span>是的，有</span>
+                    </button>
+
+                    <button onclick="answerQuestion(false)" class="group py-5 md:py-6 px-4 rounded-2xl bg-slate-900 border-2 border-rose-500/40 hover:border-rose-500 active:bg-rose-950/40 text-rose-400 font-bold text-xl md:text-2xl transition-all duration-200 flex flex-col items-center justify-center space-y-1 shadow-lg shadow-rose-950/20">
+                        <i class="fa-solid fa-circle-xmark text-2xl group-hover:scale-110 transition-transform"></i>
+                        <span>沒有 / 否</span>
+                    </button>
+                </div>
+
+                <!-- Back / Previous Button -->
+                <div class="flex justify-between items-center pt-2">
+                    <button id="prev-btn" onclick="prevQuestion()" class="px-4 py-2 text-xs md:text-sm text-slate-400 hover:text-amber-400 flex items-center space-x-2 transition-colors disabled:opacity-30 disabled:pointer-events-none">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        <span>返回上一題</span>
+                    </button>
+
+                    <span class="text-xs text-slate-500 italic">請依真實直覺回答</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: RESULT PAGE -->
+        <section id="screen-result" class="hidden w-full flex flex-col items-center my-auto py-6 space-y-8 slide-in">
+            
+            <!-- Result Header Card -->
+            <div class="w-full rounded-2xl bg-card-gradient border border-amber-500/30 p-6 md:p-8 text-center space-y-6 gold-border-glow relative overflow-hidden">
+                <div class="space-y-2">
+                    <span class="text-amber-400 font-medium text-sm tracking-widest uppercase">Spiritual Assessment Result</span>
+                    <h2 class="text-2xl md:text-3xl font-bold font-serif-tc text-white">
+                        <span id="result-user-name" class="text-amber-300">測驗者</span> 的屬靈檢測結果
+                    </h2>
+                </div>
+
+                <!-- Score Gauge / Circle -->
+                <div class="relative w-44 h-44 md:w-52 md:h-52 mx-auto flex items-center justify-center">
+                    <!-- Circular SVG Progress -->
+                    <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="42" stroke="currentColor" stroke-width="8" class="text-slate-800" fill="transparent" />
+                        <circle id="score-circle" cx="50" cy="50" r="42" stroke="url(#amber-gradient)" stroke-width="8" stroke-dasharray="263.89" stroke-dashoffset="263.89" stroke-linecap="round" class="transition-all duration-1000 ease-out" fill="transparent" />
+                        <defs>
+                            <linearGradient id="amber-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#fef08a" />
+                                <stop offset="50%" stop-color="#f59e0b" />
+                                <stop offset="100%" stop-color="#b45309" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+
+                    <!-- Center Percentage Text -->
+                    <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                        <span class="text-xs text-slate-400 font-medium tracking-wider uppercase mb-1">危險受膏機率</span>
+                        <span id="result-percentage" class="text-4xl md:text-5xl font-extrabold font-cinzel text-amber-400 gold-text-glow">0%</span>
+                        <span id="result-level-tag" class="text-xs px-2.5 py-0.5 mt-2 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold">評估中</span>
+                    </div>
+                </div>
+
+                <p id="result-summary" class="text-slate-300 text-sm md:text-base leading-relaxed max-w-md mx-auto">
+                    根據你的經歷回答，你展現出了極顯著的危險受膏徵兆。
+                </p>
+            </div>
+
+            <!-- Explanation Text Block (500+ Words Detailed Analysis) -->
+            <div class="w-full bg-slate-900/90 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-5 text-slate-300 text-sm md:text-base leading-relaxed shadow-xl">
+                <div class="flex items-center space-x-3 pb-3 border-b border-slate-800">
+                    <div class="p-2.5 bg-amber-500/10 rounded-xl text-amber-400 border border-amber-500/20">
+                        <i class="fa-solid fa-scroll text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold font-serif-tc text-white">「危險受膏」徵兆深度解析</h3>
+                        <p class="text-xs text-slate-400">上帝高代價揀選的靈性真相與荒野熬煉</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4 font-light text-slate-300 leading-loose">
+                    <p>
+                        在屬靈的歷程中，「受膏」（Anointing）代表著上帝對一個人的特別揀選、授權與裝備。然而，有一種極為特殊的受膏被稱為<strong class="text-amber-400 font-semibold">「危險的受膏」</strong>。這意味著上帝指派給你的使命，不僅僅是平淡地服事，而是要在屬靈的黑暗陣營中投下震撼彈，去破除世代的框架、帶領靈性的突破與翻轉。
+                    </p>
+                    
+                    <p>
+                        承接這份受膏的人，生命中往往伴隨著超乎尋常的孤立與磨難。當你發現自己莫名遭到周遭無端的敵意、嫉妒，甚至經歷最信任者的背叛與棄絕時，這並非偶然的運氣不好。在屬靈實相中，仇敵往往能在你尚未意識到自身使命前，就察覺到你身上的屬靈潛力，從而發動密集的「預防性打擊」，企圖在你的生命種子萌芽前將你摧毀。
+                    </p>
+
+                    <p>
+                        此外，這種受膏之所以「危險」，是因為它會迫使你進入上帝親自安排的<strong class="text-amber-300 font-semibold">「荒野時期」（Wilderness Season）</strong>。在這段時間裡，舊的人際網絡與世俗依靠會被逐一剝離，逼迫你無法再依賴肉體或環境，而必須學會在極致的孤獨中單單仰望神。這不是出於懲罰，而是神為了鍛造能夠承受極大屬靈榮耀與壓力的器皿，所進行的必經淬鍊。
+                    </p>
+
+                    <p>
+                        如果你在本次測驗中呈現高度的徵兆Matches，請不要驚慌或灰心。那些深夜裡的眼淚、無端的逼迫、靈裡的強烈爭戰以及對平凡生活的內心不甘，都是你正被神重用的印記。孤獨是榮耀臨到前的預備，荒野更是大能受膏者的誕生地。保持忠心與堅忍，因為你所承接的重任，必將在神的時刻顯明其無可比擬的價值與影響力。
+                    </p>
+                </div>
+            </div>
+
+            <!-- Action Button: Restart -->
+            <button onclick="restartQuiz()" class="w-full py-4 px-6 rounded-xl bg-slate-800 border border-slate-700 hover:border-amber-500/50 text-slate-200 hover:text-amber-400 font-bold text-base transition-all flex items-center justify-center space-x-2 shadow-lg">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span>重新進行測驗</span>
+            </button>
+        </section>
+
+    </main>
+
+    <script>
+        // --- QUESTION BANK (30 Questions on "Dangerous Anointing") ---
+        const questions = [
+            "你是否經常經歷突如其來、且難以用常理解釋的密集困難或屬靈攻擊？",
+            "你是否發現身邊的人有時會無緣無故對你產生敵意、戒心或莫名排斥感？",
+            "你是否常感到自己與世俗的價值觀與社交圈格格不入，難以找到同路人？",
+            "你是否曾為了堅守信仰或特別的呼召，經歷過極度深刻的孤立與寂寞？",
+            "你是否覺得自己生命中，曾遭遇過來自最信任、最親近之人的背叛或誤解？",
+            "你是否經常在禱告或日常生活中，感知到強烈的屬靈爭戰或靈裡壓迫感？",
+            "你是否感到內心深處有一股無法抗拒的強烈使命感，逼使你無法甘於平凡？",
+            "你是否在經歷重大的打擊與挫折後，靈敏度與直覺反而變得更加敏銳？",
+            "你是否常感到神在要求你放下世俗的安全感，去承擔極高風險的決定？",
+            "你是否曾明確感覺到，每當你準備做某件對神有價值的事時，阻力就異常猛烈？",
+            "你是否發現自己特別容易吸引到靈裡沉重、受傷或陷於黑暗的人前來尋求幫助？",
+            "你是否經歷過舊有的社交圈、好友或人際關係突然集體斷裂或離你而去？",
+            "你是否常被神帶領進入靈性上的「荒野時期」，感覺求告無門、只能獨立面對？",
+            "你是否對假冒偽善、罪惡或屬靈上的妥協，有著超乎常人的不適感與厭惡？",
+            "你是否曾在夢中或禱告靜默中，接收過極為明確且令人敬畏的屬靈啟示？",
+            "你是否覺得自己生命中所遭受的磨難與試鍊，遠多於同齡或周遭的人？",
+            "你是否發現每當你試圖過上舒適安逸的平凡生活時，內心就會產生強烈不安？",
+            "你是否常感到自己需要承擔遠超出個人肉體能力範圍的靈性重擔與責任？",
+            "你是否在面對極大的逼迫或環境動盪時，內心深處反而湧現一股異常的平靜？",
+            "你是否察覺到自己的話語、禱告或出現，對周遭屬靈環境具有強大的影響力？",
+            "你是否曾經歷過生命中所有世俗依靠被徹底剝離，只能單單憑信心仰望神？",
+            "你是否常感到仇敵在你即將進入下一個生命重大突破前，發動最猛烈的攻擊？",
+            "你是否對神的榮耀與聖潔，有著一種超越言語所能形容的渴慕與敬畏？",
+            "你是否發現自己很難獲得世俗標準的認同，卻常在關鍵時刻蒙神特別保守？",
+            "你是否經常自發性地需要為一個群體、城市或世代進行代禱與破口補立？",
+            "你是否對周遭環境的屬靈氛圍、人心隱密的情緒有著極高敏銳的洞察力？",
+            "你是否曾經歷過物質或肉體上的極度匱乏，進而學會完全依靠神的供應？",
+            "你是否覺得自己被神揀選去開創某些全新、沒有前人路徑可循的事工或使命？",
+            "你是否常需要在深夜或獨處時，獨自面對靈裡極度深刻的爭戰與對話？",
+            "你是否深刻體會到「受膏越深，所付出的孤獨代價與責任越是沉重」的真理？"
+        ];
+
+        // --- STATE VARIABLES ---
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let userNickname = "";
+
+        // --- DOM ELEMENTS ---
+        const screenLanding = document.getElementById('screen-landing');
+        const screenQuiz = document.getElementById('screen-quiz');
+        const screenResult = document.getElementById('screen-result');
+
+        const inputNickname = document.getElementById('user-nickname');
+        const displayName = document.getElementById('display-name');
+        const currentQuestionNum = document.getElementById('current-question-num');
+        const qBadgeNum = document.getElementById('q-badge-num');
+        const questionText = document.getElementById('question-text');
+        const progressBarFill = document.getElementById('progress-bar-fill');
+        const prevBtn = document.getElementById('prev-btn');
+        const questionCard = document.getElementById('question-card');
+
+        // --- FUNCTIONS ---
+
+        // Start Quiz
+        function startQuiz() {
+            const name = inputNickname.value.trim();
+            if (!name) {
+                inputNickname.classList.add('ring-2', 'ring-rose-500', 'border-rose-500');
+                inputNickname.focus();
+                setTimeout(() => {
+                    inputNickname.classList.remove('ring-2', 'ring-rose-500', 'border-rose-500');
+                }, 1500);
+                return;
+            }
+
+            userNickname = name;
+            displayName.innerText = userNickname;
+            
+            // Switch Screens
+            switchScreen(screenLanding, screenQuiz);
+            currentQuestionIndex = 0;
+            userAnswers.fill(null);
+            updateQuestionUI();
         }
-    }
 
-    if (answeredCount < questions.length) {
-        alert(`請完成所有問題再提交！（目前已回答 ${answeredCount}/${questions.length} 題）`);
-        return;
-    }
+        // Update Question Screen Content
+        function updateQuestionUI() {
+            // Update Question Numbers & Badges
+            const qNumStr = (currentQuestionIndex + 1).toString();
+            currentQuestionNum.innerText = qNumStr;
+            qBadgeNum.innerText = qNumStr.padStart(2, '0');
 
-    const percentage = Math.round((totalYes / questions.length) * 100);
-    document.getElementById('score-text').innerText = `${percentage}%`;
-    document.getElementById('result-section').style.display = 'block';
+            // Update Question Text
+            questionText.innerText = questions[currentQuestionIndex];
 
-    document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
-}
-</script>
+            // Update Progress Bar
+            const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBarFill.style.width = `${progressPercent}%`;
 
+            // Update Prev Button State
+            prevBtn.disabled = currentQuestionIndex === 0;
+
+            // Card Entrance Animation
+            questionCard.classList.remove('slide-in');
+            void questionCard.offsetWidth; // Trigger reflow
+            questionCard.classList.add('slide-in');
+        }
+
+        // Answer Question (True = Yes, False = No)
+        function answerQuestion(isYes) {
+            userAnswers[currentQuestionIndex] = isYes;
+
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                updateQuestionUI();
+            } else {
+                // Quiz Completed
+                showResults();
+            }
+        }
+
+        // Go Back to Previous Question
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                updateQuestionUI();
+            }
+        }
+
+        // Calculate and Show Results
+        function showResults() {
+            const yesCount = userAnswers.filter(ans => ans === true).length;
+            const percentage = Math.round((yesCount / questions.length) * 100);
+
+            // Populate Result Data
+            document.getElementById('result-user-name').innerText = userNickname;
+            document.getElementById('result-percentage').innerText = `${percentage}%`;
+
+            // Result Level Tag & Summary Adjustment
+            const levelTag = document.getElementById('result-level-tag');
+            const summaryText = document.getElementById('result-summary');
+
+            if (percentage >= 80) {
+                levelTag.innerText = "極高徵兆 / 核心承接者";
+                levelTag.className = "text-xs px-2.5 py-0.5 mt-2 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold";
+                summaryText.innerText = `${userNickname}，你展現出了極其強烈的「危險受膏」徵兆。你正處於極深的屬靈熬煉與使命呼召中！`;
+            } else if (percentage >= 50) {
+                levelTag.innerText = "中高徵兆 / 荒野熬煉期";
+                levelTag.className = "text-xs px-2.5 py-0.5 mt-2 rounded-full bg-yellow-500/20 text-yellow-300 border border-yellow-500/40 font-semibold";
+                summaryText.innerText = `${userNickname}，你擁有顯著的受膏徵兆。神正在透過環境與考驗，漸進式地磨練你的屬靈承載力。`;
+            } else {
+                levelTag.innerText = "基礎階段 / 潛在呼召";
+                levelTag.className = "text-xs px-2.5 py-0.5 mt-2 rounded-full bg-slate-700 text-slate-300 border border-slate-600 font-semibold";
+                summaryText.innerText = `${userNickname}，你目前處於較平穩的屬靈階段。神可能正在保護你，或預備你在其他領域發揮影響力。`;
+            }
+
+            // Switch Screen to Result
+            switchScreen(screenQuiz, screenResult);
+
+            // Animate Circle Gauge Progress
+            setTimeout(() => {
+                const circle = document.getElementById('score-circle');
+                const circumference = 263.89; // 2 * PI * 42
+                const offset = circumference - (percentage / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+            }, 100);
+        }
+
+        // Restart Quiz
+        function restartQuiz() {
+            // Reset Gauge
+            document.getElementById('score-circle').style.strokeDashoffset = '263.89';
+            switchScreen(screenResult, screenLanding);
+        }
+
+        // Helper Screen Switcher
+        function switchScreen(fromScreen, toScreen) {
+            fromScreen.classList.add('hidden');
+            toScreen.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Allow Enter key on input to start
+        inputNickname.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                startQuiz();
+            }
+        });
+    </script>
 </body>
 </html>
